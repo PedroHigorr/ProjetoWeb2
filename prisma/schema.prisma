@@ -1,14 +1,29 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") 
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+model User {
+  id        Int       @id @default(autoincrement()) // ID único e autoincrementado
+  name      String    // Nome do usuário
+  email     String    @unique // Email único
+  contact   String?   // Contato opcional (pode ser telefone ou outro meio)
+  createdAt DateTime  @default(now()) // Data de criação do usuário
+  projects  Project[] // Relacionamento com projetos (um para muitos)
+}
+
+model Project {
+  id          Int      @id @default(autoincrement()) // ID único e autoincrementado
+  name        String   // Nome do projeto
+  description String?  // Descrição opcional do projeto
+  link        String   // Link para o repositório
+  language    String   // Linguagem principal do projeto
+  userId      Int      // ID do usuário relacionado (chave estrangeira)
+  user        User     @relation(fields: [userId], references: [id]) // Relacionamento com o usuário
+  createdAt   DateTime @default(now()) // Data de criação do projeto
 }
