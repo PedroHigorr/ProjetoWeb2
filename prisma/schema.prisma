@@ -1,7 +1,7 @@
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL") 
+  url      = "mysql://root:password@localhost:3306/projetoWeb2" 
 }
 
 generator client {
@@ -12,7 +12,7 @@ model User {
   id        Int       @id @default(autoincrement()) // ID único e autoincrementado
   name      String    // Nome do usuário
   email     String    @unique // Email único
-  contact   String?   // Contato opcional (pode ser telefone ou outro meio)
+  tel       String?   // Contato opcional (pode ser telefone ou outro meio)
   createdAt DateTime  @default(now()) // Data de criação do usuário
   projects  Project[] // Relacionamento com projetos (um para muitos)
 }
