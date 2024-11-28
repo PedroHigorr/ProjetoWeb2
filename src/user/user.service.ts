@@ -19,7 +19,4 @@ export class UserService implements UsuarioDto {
 
     deletarUsuario(id: number){}
 
-    funcaoTeste(id: number ) {
-dsadasads
-    }
 }
