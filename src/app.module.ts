@@ -7,9 +7,10 @@ import { UserModule } from './user/user.module';
 import { ProjectController } from './project/project.controller';
 import { ProjectService } from './project/project.service';
 import { ProjectModule } from './project/project.module';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
-  imports: [UserModule, ProjectModule],
+  imports: [UserModule, ProjectModule, SharedModule],
   controllers: [AppController, UserController, ProjectController],
   providers: [AppService, UserService, ProjectService],
 })

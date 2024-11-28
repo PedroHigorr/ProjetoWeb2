@@ -1,25 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { UsuarioDto } from './database/user.dto';
-import { CadastroUsuario, DadosUsuario } from './database/user.dto';import { PrismaClient } from '@prisma/client';
+import { CadastroUsuario } from './database/user.dto';
+import { CrudUsuario } from './repositories/user.crud';
 
 
 @Injectable()
-export class UserService implements UsuarioDto {
-   
-    private prisma = new PrismaClient();
+export class UserService {
+    constructor(private readonly crud: CrudUsuario){}
 
-    criarUsuario(dados: CadastroUsuario){
+    
+    async cad(data: CadastroUsuario){
+    
+        const cadastrar = await this.crud.criarUsuario(data) // o data é um objeto
 
-        const variavel = 2
+        return cadastrar;
     }
 
-    lerDados(dados: DadosUsuario){}
-
-    atualizarDados(dados: CadastroUsuario){}
-
-    deletarUsuario(id: number){}
-
-    funcaoTeste(id: number ) {
-dsadasads
-    }
 }
+
