@@ -1,6 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ValidatorCadastro } from './database/validator/user.crud.validator';
+import { ValidarID, ValidatorCadastro } from './database/validator/user.crud.validator';
 
 @Controller('user')
 export class UserController {
@@ -14,5 +14,15 @@ export class UserController {
         return resultado
     }
 
+    @Get()
+    async retornarDados(@Query() query: ValidarID){
+
+        const { id } = query
+
+        const restulado = await this.user.dadosDoUsuario(id)
+
+        return restulado
+
+    }
 
 }

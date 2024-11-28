@@ -16,7 +16,7 @@ export interface UsuarioDto{
 
     criarUsuario(dados: CadastroUsuario)
 
-    lerDados(dados: DadosUsuario)
+    lerDados(id: number)
 
     atualizarDados(dados: CadastroUsuario)
 

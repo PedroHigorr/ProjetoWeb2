@@ -40,9 +40,35 @@ export class CrudUsuario implements UsuarioDto {
         }
     }
     
-    async lerDados(dados: DadosUsuario){}
+    async lerDados(id: number){
+        try{
 
-    async atualizarDados(dados: CadastroUsuario){}
+            const retornaDadosDeUsuario = await this.prisma.user.findMany({
+                //consulta SQL, SELECT * FROM USER WHERE ID = ID;
+                where:{
+                    id // isso é igual fazer >> id_do_usuario_no_banco: id_recebido_por_parametro
+                }, // se atente à vírgula 
+                select: { } // o select sem nenhum dado, é o mesmo que dizer para o prisma retornar todos od dados
+            })
+
+            return retornaDadosDeUsuario;
+
+        }catch(err){
+
+            if( err instanceof PrismaClientKnownRequestError ){
+                console.log( "Erro ocorrido no prisma: ", err.code, err.meta )
+
+                throw err;
+            }
+
+            throw new BadRequestException('Algum erro ocorreu durante a execução de buscar dados')
+
+        }
+    }
+
+    async atualizarDados(dados: CadastroUsuario){
+        
+    }
 
     async deletarUsuario(id: number){}
 

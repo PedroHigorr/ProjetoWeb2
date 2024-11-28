@@ -15,5 +15,12 @@ export class UserService {
         return cadastrar;
     }
 
+    async dadosDoUsuario(id: number){
+        
+        const dados = await this.crud.lerDados(id)
+
+        return dados;
+    }
+
 }
 
