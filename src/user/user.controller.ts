@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ValidarID, ValidatorCadastro } from './database/validator/user.crud.validator';
 
@@ -9,13 +9,17 @@ export class UserController {
     @Post()
     async cadastrarUsuario(@Body() body: ValidatorCadastro) {
 
+        console.log("passando pelo cadastro!")
+
         const resultado = await this.user.cad(body)
 
         return resultado
     }
 
     @Get()
-    async retornarDados(@Query() query: ValidarID){
+    async retornarDados(@Query() query: ValidarID ){
+
+        console.log('passando pelo histórico')
 
         const { id } = query
 
@@ -25,4 +29,30 @@ export class UserController {
 
     }
 
+    @Put(":id")
+    async atualizaDados(@Param() param: ValidarID, @Body() body: ValidatorCadastro){
+
+        const { id } = param
+        const { name, email, tel } = body
+
+        console.log('passando pelo atualiza dados')
+
+        const result = await this.user.attDados(id, name, email, tel)
+
+        return result
+
+    }
+
+    @Delete(':id')
+    async deletaDados(@Param() param: ValidarID ){
+        
+        console.log("Passando pelo deletar. ")
+        
+
+        const { id } = param
+        
+        const deletar = await this.user.deletarUsuario( id )
+
+        return deletar;
+    }
 }

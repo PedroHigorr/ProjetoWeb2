@@ -16,11 +16,11 @@ export interface UsuarioDto{
 
     criarUsuario(dados: CadastroUsuario)
 
-    lerDados(id: number)
+    lerDados( id: number )
 
-    atualizarDados(dados: CadastroUsuario)
+    atualizarDados( id: number, name: string, email:string, tel: string  )
 
-    deletarUsuario(id: number)
+    deletarUsuario( id: number )
 
     
 }

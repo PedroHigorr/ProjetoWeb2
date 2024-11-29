@@ -22,5 +22,18 @@ export class UserService {
         return dados;
     }
 
+    async attDados( id: number, name: string, email: string, tel: string){
+
+        const atualizar = await this.crud.atualizarDados(id, name, email, tel)
+
+        return atualizar
+    }
+
+    async deletarUsuario( id: number ){
+
+        const deletar = await this.crud.deletarUsuario(id)
+        
+        return deletar;
+    }
 }
 
