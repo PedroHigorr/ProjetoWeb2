@@ -10,7 +10,7 @@ generator client {
 
 model User {
   id        Int       @id @default(autoincrement()) // ID único e autoincrementado
-  name      String    // Nome do usuário
+  name      String    @db.VarChar(50)// Nome do usuário
   email     String    @unique // Email único
   tel       String?   // Contato opcional (pode ser telefone ou outro meio)
   createdAt DateTime  @default(now()) // Data de criação do usuário
@@ -19,8 +19,8 @@ model User {
 
 model Project {
   id          Int      @id @default(autoincrement()) // ID único e autoincrementado
-  name        String   // Nome do projeto
-  description String?  // Descrição opcional do projeto
+  name        String   @db.VarChar(100)// Nome do projeto
+  description String?  @db.VarChar(200)// Descrição opcional do projeto
   link        String   // Link para o repositório
   language    String   // Linguagem principal do projeto
   userId      Int      // ID do usuário relacionado (chave estrangeira)

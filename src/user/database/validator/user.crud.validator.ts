@@ -1,26 +1,26 @@
 import { Transform, Type } from "class-transformer";
-import { IsEmail, IsIn, IsInt, IsNotEmpty, IsPhoneNumber, MaxLength, Min, MinLength } from "class-validator";
+import { IsEmail, IsInt, IsNotEmpty, IsPhoneNumber, MaxLength, Min, MinLength } from "class-validator";
 
 
 export class ValidatorCadastro { 
-    @IsNotEmpty()
-    @MinLength(1)
-    @MaxLength(40)
+    @IsNotEmpty({message: "O nome do projeto deve ser definido!"})
+    @MinLength(1, {message: "O nome do projeto deve conter ao menos um caracter. "})
+    @MaxLength( 100, {message: "O nome do projeto não deve exceder 100 caracteres."})
     name: string
 
-    @IsNotEmpty()
-    @IsEmail()
+    @IsNotEmpty({message: "O email não pode estar vazio."})
+    @IsEmail({}, {message: "Email inválido!"})
     email: string
 
     @Transform(({ value }) => value.startsWith('+55') ? value : `+55${value}`)
-    @IsPhoneNumber('BR', { message: 'Número de telefone inválido para o Brasil' })
+    @IsPhoneNumber('BR', { message: 'Número de telefone inválido para o Brasil.' })
     tel: string
 }
 
 export class ValidarID{
-    @IsNotEmpty()
+    @IsNotEmpty({message: "Este campo não deve ser vazio."})
     @Type(() => Number) //tudo que chega via URL é uma STRING, isso aqui já realiza a conversão de string para INT, ou number no caso
-    @IsInt()
-    @Min(1)
+    @IsInt({message: "O campo deve ser um número válido."})
+    @Min(1, {message: "Impossível valores menores que 0. "})
     id: number
 }
