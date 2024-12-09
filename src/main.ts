@@ -11,6 +11,12 @@ async function bootstrap() {
       forbidNonWhitelisted: false,
     }),
   )
-  await app.listen(process.env.PORT ?? 3000);
+    // Habilitar CORS
+    app.enableCors({
+      origin: 'http://localhost:3000', // Permita apenas seu front-end
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
+      credentials: true, // Habilitar cookies/sessões, se necessário
+    });
+  await app.listen(4000);
 }
 bootstrap();

@@ -12,7 +12,7 @@ model User {
   id        Int       @id @default(autoincrement()) // ID único e autoincrementado
   name      String    @db.VarChar(50)// Nome do usuário
   email     String    @unique // Email único
-  tel       String?   // Contato opcional (pode ser telefone ou outro meio)
+  tel       String?   // Contato opcional
   createdAt DateTime  @default(now()) // Data de criação do usuário
   projects  Project[] // Relacionamento com projetos (um para muitos)
 }
