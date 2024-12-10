@@ -35,5 +35,12 @@ export class UserService {
         
         return deletar;
     }
+
+    async verificarUsuario(name: string, email:string){
+        
+        const dados = await this.crud.verificarUsuario(name, email);
+
+        return dados
+    }
 }
 

@@ -147,4 +147,40 @@ export class CrudUsuario implements UsuarioDto {
         }
     }
 
+    async verificarUsuario(name: string, email: string){
+        try {
+            
+            const verify = await this.prisma.user.findUnique({
+                where:{
+                    name,
+                    email
+                }
+            })
+
+            if(!verify){
+                console.log('Usuário não encontrado.')
+                throw new NotFoundException('Uusário não encontrado.')
+            }
+
+            return verify
+
+        } catch (err) {
+            
+            if( err instanceof PrismaClientKnownRequestError ){
+                console.log( "Erro ocorrido no prisma: ", err.code, err.meta )
+
+                throw new BadRequestException('Um erro ocorreu durante a execução do processo. ');
+
+            }else if(err instanceof NotFoundException){
+                
+                throw err
+            }
+
+            console.log('Erro não listado: ', err)
+
+            throw new BadRequestException('Erro desconhecido.')
+
+        }
+    }
 }
+    
