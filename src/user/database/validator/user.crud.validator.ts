@@ -28,12 +28,9 @@ export class ValidarID{
 export class validarVerificador{
     
         @IsNotEmpty({message: "O nome do usuario deve ser definido!"})
-        @MinLength(1, {message: "O nome do usuario deve conter ao menos um caracter. "})
-        @MaxLength( 100, {message: "O nome do usuario não deve exceder 100 caracteres."})
         name: string
     
         @IsNotEmpty({message: "O email não pode estar vazio."})
-        @IsEmail({}, {message: "Email inválido!"})
         email: string
     
 }

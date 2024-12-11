@@ -20,6 +20,8 @@ export class ProjectController {
     @Post()
     async cadProjeto(@Body() body: validarDadosProjeto){
         
+        console.log('passando em POST project')
+
         console.log(body)
 
         const cad = await this.project.criarProjeto(body)
@@ -49,4 +51,6 @@ export class ProjectController {
         return del;
 
     }
+
+    
 }

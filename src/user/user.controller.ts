@@ -12,9 +12,12 @@ export class UserController {
         const {name, email } = query
 
         console.log("passando pelo CONTROLLER de verificar usuario")
+        console.log('Name: ',name, "\nEmail: ", email)
 
         const r = await this.user.verificarUsuario(name, email)
 
+        console.log(r)
+        
         return r
     }
 

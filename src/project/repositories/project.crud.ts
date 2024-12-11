@@ -144,5 +144,37 @@ export class ProjectCrud implements ProjectDto {
         
     }
 
+    async deletarPorIdUser(userId: number){
+        
+        try {
+            
+            const del =  await this.prisma.project.deleteMany({
+                where:{
+                    userId
+                }
+            })
+
+        } catch (err) {
+            
+            if(err instanceof PrismaClientKnownRequestError){
+                
+                if(err.code === 'P2025'){
+
+                    console.log('Nenhum projeto encontrado: ', err.code, err.meta)
+
+                    throw new NotFoundException('Nenhum projeto encontrado, impossível deletar.')
+                }
+
+                console.log("Ocorreu um erro durante a execução do prisma: ", err.code, err.meta);
+
+                throw new BadRequestException('Algum erro ocorreu ao deletar um projeto.')
+            }
+
+        console.log('Um erro desconhecido ocorreu: ', err)
+
+        throw new BadRequestException('Um erro desconhecido ocorreu. ')
+        }
+        
+    }
     
 }

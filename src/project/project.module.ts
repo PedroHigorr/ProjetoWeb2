@@ -6,6 +6,6 @@ import { ProjectService } from './project.service';
 @Module({
     imports:[ SharedModule ],
     providers: [ ProjectCrud, ProjectService],
-    exports: [ ProjectCrud ]
+    exports: [ ProjectCrud, ProjectService]
 })
 export class ProjectModule {}

@@ -3,11 +3,12 @@ import { CadastroUsuario, DadosUsuario } from "../database/user.dto";
 import { UsuarioDto } from "../database/user.dto";
 import { PrismaService } from "src/shared/prisma.instance";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ProjectService } from "src/project/project.service";
 
 
 @Injectable()
 export class CrudUsuario implements UsuarioDto {
-    constructor( private readonly prisma: PrismaService){}
+    constructor( private readonly prisma: PrismaService, private readonly project: ProjectService ){}
 
     async criarUsuario( dados: CadastroUsuario ){
         try{
@@ -121,6 +122,10 @@ export class CrudUsuario implements UsuarioDto {
     async deletarUsuario(id: number){
         try {
             
+            const delProj = await this.project.delByUser(id)
+            
+            console.log('Projetos excluídos: ', delProj)
+
             const deletarUsuario = await this.prisma.user.delete({
                 where:{
                     id
@@ -159,7 +164,7 @@ export class CrudUsuario implements UsuarioDto {
 
             if(!verify){
                 console.log('Usuário não encontrado.')
-                throw new NotFoundException('Uusário não encontrado.')
+                throw new NotFoundException('Usário não encontrado.')
             }
 
             return verify

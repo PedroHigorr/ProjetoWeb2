@@ -33,4 +33,11 @@ export class ProjectService {
 
         return del
     }
+
+    async delByUser(id: number){
+
+        const del = await this.project.deletarPorIdUser(id)
+
+        return del;
+    }
 }
