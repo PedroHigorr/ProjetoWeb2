@@ -12,8 +12,8 @@ export interface ProjectDto{
 
     lerDados(id: number)
 
-    atualizarDados(id: number, name:string, description: string, link: string, language: string, userId: number)
+    atualizarDados(name: string, nameAtt:string, description: string, link: string, language: string, userId: number)
 
-    deletarProjeto(id: number)
+    deletarProjeto(name: string, userId: number)
     
 }

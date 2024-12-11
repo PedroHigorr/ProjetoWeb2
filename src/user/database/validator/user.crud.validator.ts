@@ -17,6 +17,13 @@ export class ValidatorCadastro {
     tel: string
 }
 
+export class validadorNome{
+    @IsNotEmpty({message: "O nome do usuario deve ser definido!"})
+    @MinLength(1, {message: "O nome do usuario deve conter ao menos um caracter. "})
+    @MaxLength( 100, {message: "O nome do usuario não deve exceder 100 caracteres."})
+    name: string
+}
+
 export class ValidarID{
     @IsNotEmpty({message: "Este campo não deve ser vazio."})
     @Type(() => Number) //tudo que chega via URL é uma STRING, isso aqui já realiza a conversão de string para INT, ou number no caso

@@ -19,7 +19,7 @@ model User {
 
 model Project {
   id          Int      @id @default(autoincrement()) // ID único e autoincrementado
-  name        String   @db.VarChar(100)// Nome do projeto
+  name        String   @unique @db.VarChar(100)// Nome do projeto
   description String?  @db.VarChar(200)// Descrição opcional do projeto
   link        String   // Link para o repositório
   language    String   // Linguagem principal do projeto

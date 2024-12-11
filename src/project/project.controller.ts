@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { validarDadosProjeto } from './database/validator/project.validator';
+import { validarDadosAtualizados, validarDadosProjeto } from './database/validator/project.validator';
 import { ProjectService } from './project.service';
-import { ValidarID } from 'src/user/database/validator/user.crud.validator';
+import { validadorNome, ValidarID } from 'src/user/database/validator/user.crud.validator';
 
 @Controller('project')
 export class ProjectController {
@@ -17,6 +17,16 @@ export class ProjectController {
         return retornarDados;
     }
 
+    @Get("find")
+    async retornaPorNome(@Query() query: validadorNome){
+       
+        const {name} =  query;
+
+        const dados = await this.project.findByName(name)
+
+        return dados
+    }
+
     @Post()
     async cadProjeto(@Body() body: validarDadosProjeto){
         
@@ -29,26 +39,27 @@ export class ProjectController {
         return cad;
     }
 
-    @Put(':id')
-    async attProjeto(@Param() param: ValidarID, @Body() body: validarDadosProjeto){
+    @Put(':name')
+    async attProjeto(@Param() param: validadorNome, @Body() body: validarDadosAtualizados){
         
-        const { id } = param;
+        const { name } = param;
 
-        const { name, description, link, language, userId } = body
+        const { nameAtt, description, link, language, userId } = body
 
-        const att = await this.project.atualizarProjeto(id, name, description, link, language, userId);
+        const att = await this.project.atualizarProjeto(name, nameAtt, description, link, language, userId);
 
         return att;
     }
 
-    @Delete(':id')
-    async deletarProjeto(@Param() param: ValidarID){
+    @Delete(':name')
+    async deletarProjeto(@Param() param: validadorNome, @Body() body: ValidarID){
         
-        const { id } = param
+        const { name } = param
+        const userId = body.id
 
-        const del = await this.project.delProjeto(id)
+        const del = await this.project.delProjeto(name, userId)
 
-        return del;
+        return {message: `Deletado com sucesso! ${del}`}
 
     }
 

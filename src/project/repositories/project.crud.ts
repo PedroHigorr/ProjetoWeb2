@@ -54,7 +54,7 @@ export class ProjectCrud implements ProjectDto {
             
             if(error.code === 'P2025'){
 
-                console.log('Usuário não encontrado: ', error.code, error.meta)
+                console.log('Projeto não encontrado: ', error.code, error.meta)
     
                 throw new NotFoundException('Projeto não encontrado, impossível retornar dados do projeto.')
     
@@ -71,18 +71,17 @@ export class ProjectCrud implements ProjectDto {
         }
     }
 
-   async atualizarDados(id: number, name: string, description: string, link: string, language: string, userId: number){
+   async atualizarDados(name: string, nameAtt: string, description: string, link: string, language: string, userId: number){
     try {
         
         //essa interação com o banco retorna um json com os dados que foram retornados.
         const att = await this.prisma.project.update({
-            where:{ id },
+            where:{ name, userId },
             data:{
-                name,
+                name: nameAtt,
                 description,
                 link,
                 language, 
-                userId
             }
         })
 
@@ -94,7 +93,7 @@ export class ProjectCrud implements ProjectDto {
         //já explicado, mas um condicional "se o erro, for um erro conhecido pelo prisma então..."
         if(error.code === 'P2025'){
 
-            console.log('Usuário não encontrado: ', error.code, error.meta)
+            console.log('Projeto não encontrado: ', error.code, error.meta)
 
             throw new NotFoundException('Usário não encontrado, impossível atualizar projeto.')
 
@@ -112,11 +111,11 @@ export class ProjectCrud implements ProjectDto {
     }
    }
 
-   async deletarProjeto(id: number){
+   async deletarProjeto(name: string, userId: number){
         try {
             
             const deletar = await this.prisma.project.delete({
-                where:{id}
+                where:{name, userId}
             })
 
 
@@ -175,6 +174,40 @@ export class ProjectCrud implements ProjectDto {
         throw new BadRequestException('Um erro desconhecido ocorreu. ')
         }
         
+    }
+
+    async projetoPorNome(name: string ){
+        try {
+
+            const dados = await this.prisma.project.findUnique({
+                where:{
+                    name
+                }
+            })
+
+
+            return dados
+
+        } catch (err) {
+            
+            if(err.code === 'P2025'){
+
+                console.log('Projeto não encontrado: ', err.code, err.meta)
+    
+                throw new NotFoundException('Projeto não encontrado, impossível retornar dados.')
+    
+            }else if(err instanceof PrismaClientKnownRequestError){
+                
+                console.log("Ocorreu um erro durante a execução do prisma: ", err.code, err.meta);
+
+                throw new BadRequestException('Algum erro ocorreu ao buscar por projetos.')
+            }
+
+            console.log('Um erro desconhecido ocorreu: ', err)
+
+            throw new BadRequestException('Um erro desconhecido ocorreu. ')
+            
+        }
     }
     
 }
